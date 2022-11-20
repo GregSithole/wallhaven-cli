@@ -1,11 +1,19 @@
 {
 	"name": "wallhaven-cli",
 	"version": "1.0.0",
-	"main": "index.js",
+	"main": "./bin/index.js",
 	"repository": "https://github.com/GregSithole/wallhaven-cli.git",
 	"author": "Greg Sithole <gregsithole@hotmail.co.za>",
 	"license": "MIT",
+	"bin": {
+		"wallhaven-cli": "./bin/index.js"
+	},
+	"dependencies": {
+		"commander": "^9.4.1",
+		"figlet": "^1.5.2"
+	},
 	"devDependencies": {
+		"@types/figlet": "^1.5.5",
 		"@types/node": "^18.11.9",
 		"@typescript-eslint/eslint-plugin": "^5.43.0",
 		"@typescript-eslint/parser": "^5.43.0",
@@ -16,8 +24,10 @@
 		"typescript": "^4.9.3"
 	},
 	"scripts": {
-		"build": "tsc",
+		"chmod": "chmod u+x ./bin/index.js",
+		"build": "yarn tsc && yarn chmod",
 		"lint": "eslint '**/*.{js,ts}' --fix",
-		"prettier": "prettier --write ."
+		"prettier": "prettier --write .",
+		"tsc": "tsc"
 	}
 }
