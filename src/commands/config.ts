@@ -4,7 +4,7 @@ import conf from 'conf';
 
 const configuration = new conf();
 
-export async function config(args: any) {
+export async function promptConfiguration(args: any) {
 	await checkUserConfigurationValues(args);
 }
 
