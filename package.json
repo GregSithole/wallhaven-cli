@@ -5,6 +5,7 @@
 	"repository": "https://github.com/GregSithole/wallhaven-cli.git",
 	"author": "Greg Sithole <gregsithole@hotmail.co.za>",
 	"license": "MIT",
+	"type": "module",
 	"bin": {
 		"wallhaven-cli": "./bin/index.js"
 	},
