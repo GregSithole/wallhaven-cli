@@ -2,6 +2,7 @@
 import { program } from 'commander';
 import figlet from 'figlet';
 import { promptConfiguration } from './commands/config.js';
+import { promptDownload } from './commands/download.js';
 
 //Displaying CLI Title
 console.log(figlet.textSync('Wallhaven CLI'));
@@ -11,7 +12,9 @@ program
 	.command('download')
 	.alias('d')
 	.description('ownload Wallpapers from Wallhaven')
-	.action(async (args) => { });
+	.action(async () => {
+		await promptDownload();
+	});
 
 // Configuration command
 program
