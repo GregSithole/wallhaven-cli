@@ -3,10 +3,21 @@ import inquirer from 'inquirer';
 import inquirerFileTreeSelection from 'inquirer-file-tree-selection-prompt';
 import conf from 'conf';
 import { getUserHome } from './utils.js';
+import {
+	CATEGORY,
+	ORDER,
+	PURITY,
+	RATIOS,
+	SIZE,
+	RESOLUTIONS,
+	SORTING,
+	TOPRANGE,
+	COLOUR,
+} from '../constants/wallhaven.js';
 
 inquirer.registerPrompt('file-tree-selection', inquirerFileTreeSelection);
 
-const configuration = new conf();
+const configuration = new conf({ projectName: 'wallhaven-cli' });
 
 export async function promptConfiguration(args: any) {
 	await checkUserConfigurationValues(args);
@@ -103,36 +114,21 @@ export async function createSearchConfigurationPrompts() {
 			type: 'checkbox',
 			name: 'category',
 			message: 'Please select your search category?',
-			choices: [
-				{ name: 'General', value: 'general' },
-				{ name: 'Anime', value: 'anime' },
-				{ name: 'People', value: 'people' },
-			],
+			choices: CATEGORY,
 			hint: '- Space to select. Return to submit',
 		},
 		{
 			type: 'checkbox',
 			name: 'purity',
 			message: 'Please select your search purity?',
-			choices: [
-				{ name: 'Safe for work', value: 'sfw' },
-				{ name: 'Sketchy', value: 'sketchy' },
-				{ name: 'Not safe for work', value: 'nsfw' },
-			],
+			choices: PURITY,
 			hint: '- Space to select. Return to submit',
 		},
 		{
 			type: 'list',
 			name: 'sorting',
 			message: "Please select your search's sort criteria?",
-			choices: [
-				{ name: 'Date Added', value: 'date_added' },
-				{ name: 'Relevance', value: 'relevance' },
-				{ name: 'Randomly', value: 'random' },
-				{ name: 'Number of views', value: 'views' },
-				{ name: 'Favorites', value: 'favorites' },
-				{ name: 'Top List', value: 'toplist' },
-			],
+			choices: SORTING,
 		},
 		{
 			when: function (answers) {
@@ -141,33 +137,19 @@ export async function createSearchConfigurationPrompts() {
 			type: 'list',
 			name: 'topRange',
 			message: "Please select your search's toplist range?",
-			choices: [
-				{ name: '1 Day ago', value: '1d' },
-				{ name: '3 Days ago', value: '3d' },
-				{ name: '1 Week ago', value: '1w' },
-				{ name: '1 Month ago', value: '1M' },
-				{ name: '3 Months ago', value: '3M' },
-				{ name: '6 Months ago', value: '6M' },
-				{ name: '1 Year ago', value: '1y' },
-			],
+			choices: TOPRANGE,
 		},
 		{
 			type: 'list',
 			name: 'order',
 			message: "Please select your search's order criteria?",
-			choices: [
-				{ name: 'Descending', value: 'desc' },
-				{ name: 'Ascending', value: 'asc' },
-			],
+			choices: ORDER,
 		},
 		{
 			type: 'list',
 			name: 'size',
 			message: 'How would you like to determine the size of the wallpaper?',
-			choices: [
-				{ name: 'Resolution', value: 'resolution' },
-				{ name: 'Ratio', value: 'ratio' },
-			],
+			choices: SIZE,
 		},
 		{
 			when: function (answers) {
@@ -176,7 +158,7 @@ export async function createSearchConfigurationPrompts() {
 			type: 'list',
 			name: 'resolution',
 			message: "Please select your search's resolution criteria?",
-			choices: [{ name: '1920x1080', value: '1920x1080' }],
+			choices: RESOLUTIONS,
 		},
 		{
 			when: function (answers) {
@@ -185,10 +167,7 @@ export async function createSearchConfigurationPrompts() {
 			type: 'list',
 			name: 'ratio',
 			message: "Please select your search's ratio criteria?",
-			choices: [
-				{ name: '16x9', value: '16x9' },
-				{ name: '16x10', value: '16x10' },
-			],
+			choices: RATIOS,
 		},
 		{
 			type: 'confirm',
@@ -202,10 +181,7 @@ export async function createSearchConfigurationPrompts() {
 			type: 'list',
 			name: 'colors',
 			message: "Please select your search's color criteria?",
-			choices: [
-				{ name: '660000', value: '660000' },
-				{ name: '993399', value: '993399' },
-			],
+			choices: COLOUR,
 		},
 	];
 }
