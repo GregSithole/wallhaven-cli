@@ -10,8 +10,9 @@ import { IUserConfiguration } from '../models/IUserConfiguration.js';
 import { promptConfiguration, createSearchConfigurationPrompts, processSearchConfigurationPrompts } from './config.js';
 import util from 'util';
 import stream from 'stream';
+import { getFigletCLIName, getFilename } from './utils.js';
 
-const configuration = new conf();
+const configuration = new conf({ projectName: 'wallhaven-cli' });
 const pipeline = util.promisify(stream.pipeline);
 
 export async function promptDownload() {
@@ -85,7 +86,13 @@ async function getDownloadList(downloadLimit, params, downloadList) {
 	});
 
 	for (const wallpaper of wallhavenResults.data.data) {
-		downloadList.push(wallpaper.path);
+		const cachedDownloads: Array<string> = (configuration.get('downloaded-list') as Array<string>) || [];
+
+		const filename = getFilename(wallpaper.path);
+		if (!cachedDownloads.includes(filename)) {
+			downloadList.push(wallpaper.path);
+		}
+
 		if (downloadList.length === downloadLimit) {
 			break;
 		}
@@ -126,9 +133,13 @@ async function setDownloadParameters(userConfiguration, searchConfiguration) {
 
 async function downloadWallpapers(downloadList: string[], downloadDirectory: string) {
 	let downloadNumber = 1;
+	const cachedDownloads: Array<string> = (configuration.get('downloaded-list') as Array<string>) || [];
+
 	for (const url of downloadList) {
+		clear();
+		getFigletCLIName();
 		console.log(`Downloading file ${downloadNumber} of ${downloadList.length}`);
-		const filename = url.substring(url.lastIndexOf('/') + 1);
+		const filename = getFilename(url);
 		const { data, headers } = await axios({
 			url,
 			method: 'GET',
@@ -149,6 +160,11 @@ async function downloadWallpapers(downloadList: string[], downloadDirectory: str
 		await pipeline(data, fs.createWriteStream(`${downloadDirectory}/${filename}`));
 		console.log(`Successfully downloaded ${downloadNumber} of ${downloadList.length}`);
 		clear();
+		cachedDownloads.push(filename);
 		downloadNumber++;
 	}
+
+	configuration.set('downloaded-list', cachedDownloads);
+	getFigletCLIName();
+	ora().succeed(`Successfully downloaded wallpapers`);
 }
