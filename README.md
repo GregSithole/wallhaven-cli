@@ -1,7 +1,5 @@
 # Wallhaven-CLI
 
-===========================================================================
-
 [![Latest npm release][npm-badge]][npm-badge-url]
 
 [npm-badge]: https://img.shields.io/npm/v/wallhaven-cli.svg
