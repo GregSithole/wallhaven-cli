@@ -4,7 +4,7 @@
 	"main": "./bin/index.js",
 	"repository": "https://github.com/GregSithole/wallhaven-cli.git",
 	"author": "Greg Sithole <gregsithole@hotmail.co.za>",
-	"description": "",
+	"description": "The Wallhaven command line interface to download Wallpapers from Wallhaven.cc",
 	"license": "MIT",
 	"type": "module",
 	"bin": {
